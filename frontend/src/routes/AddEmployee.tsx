@@ -111,7 +111,7 @@ const AddEmployee = () => {
               {isError ||
                 (formik.errors?.dateJoined && <FormErrorMessage>{formik.errors?.dateJoined}</FormErrorMessage>)}
             </FormControl>
-            <Button type="submit" colorScheme="purple" width="full">
+            <Button type="submit" colorScheme="green" width="full">
               Add
             </Button>
           </VStack>

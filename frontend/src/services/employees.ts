@@ -8,10 +8,13 @@ export const employeesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL + '/employees',
   }),
+  refetchOnFocus: true,
+  tagTypes: ['Employee'],
   endpoints: (builder) => ({
     getEmployees: builder.query<Employee[], void>({
       query: () => '',
       transformResponse: (response: Employee[], meta, arg) => response,
+      providesTags: ['Employee'],
     }),
     getEmployee: builder.query<Employee, string>({
       query: (id) => id,
@@ -20,10 +23,11 @@ export const employeesApi = createApi({
 
     updateEmployee: builder.mutation<Employee, { id: string; body: EmployeeCredentials }>({
       query: (credentials) => ({
-        url: credentials.id,
+        url: `/${credentials.id}`,
         method: 'PUT',
         body: credentials.body,
       }),
+      invalidatesTags: ['Employee'],
     }),
     createEmployee: builder.mutation<Employee, EmployeeCredentials>({
       query: (credentials) => ({
@@ -31,12 +35,14 @@ export const employeesApi = createApi({
         method: 'POST',
         body: credentials,
       }),
+      invalidatesTags: ['Employee'],
     }),
     deleteEmployee: builder.mutation<void, string>({
       query: (id) => ({
-        url: id,
+        url: `/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Employee'],
     }),
   }),
 });

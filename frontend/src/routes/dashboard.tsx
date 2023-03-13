@@ -1,14 +1,30 @@
-import { Flex, Grid, GridItem, Box, Text, HStack } from '@chakra-ui/react';
-import { useGetEmployeesQuery } from '../services/employees';
+import {
+  Flex,
+  Grid,
+  GridItem,
+  Box,
+  Text,
+  HStack,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useDeleteEmployeeMutation, useGetEmployeesQuery } from '../services/employees';
 import { Employee } from '../utils/types';
+import Option from '../assets/option.svg';
 
 const Dashboard = () => {
   const { data: employees } = useGetEmployeesQuery();
   const headers = [{ key: 'id' }, { key: 'full name' }, { key: 'email' }, { key: 'position' }, { key: 'date Joined' }];
+  const navigate = useNavigate();
   return (
     <Box bg="gray.100">
       <Box w="min(90%,90rem)" mx="auto">
-        <Flex h="100vh" flexDir="column" pl="2rem" pt="3rem">
+        <Flex minH="100vh" flexDir="column" pl="2rem" pt="3rem">
           <HStack gap="2">
             <Text fontSize="sm" fontStyle="italic">
               Dashboard
@@ -18,22 +34,44 @@ const Dashboard = () => {
               Employee list
             </Text>
           </HStack>
-          <Text mt="1rem" fontWeight="bold" fontSize="2rem">
-            Employee List
-          </Text>
+          <HStack justifyContent="space-between">
+            <Text mt="1rem" mb="1.5rem" fontWeight="bold" fontSize="2rem">
+              Employee List
+            </Text>
+            <Button
+              colorScheme="green"
+              size="lg"
+              onClick={() => {
+                navigate('/add-employee');
+              }}
+            >
+              Add
+            </Button>
+          </HStack>
           <Box>
-            <Grid templateColumns="repeat(5, 1fr)" bg="gray.600" textColor="white">
+            <Grid templateColumns="repeat(6, 1fr)" bg="gray.200" textColor="black" rounded="sm">
               {headers.map((item) => (
-                <GridItem rounded="sm" py="1rem" pl="1.25rem" textTransform="capitalize" key={item.key}>
+                <GridItem py="1rem" pl="1.25rem" textTransform="capitalize" key={item.key}>
                   {item.key}
                 </GridItem>
               ))}
+              <GridItem py="1rem" pl="1.25rem">
+                <img src={Option} alt="option" />
+              </GridItem>
             </Grid>
-            <Grid templateColumns="repeat(5, 1fr)" borderBottom="1px" borderColor="gray.200">
-              {employees?.map((item) => (
-                <EmployeeItem data={item} />
-              ))}
-            </Grid>
+            {employees?.map((item) => (
+              <EmployeeItem data={item} />
+            ))}
+            {(!employees || (employees && employees.length <= 0)) && (
+              <Flex flexDir="column" mt="5rem" justifyContent="center" alignItems="center">
+                <Text textAlign="center" fontWeight="semibold" fontSize="1.25rem">
+                  No Employee
+                </Text>
+                <Text mt="1rem" color="blue.400">
+                  <Link to="/add-employee">Add Employee</Link>
+                </Text>
+              </Flex>
+            )}
           </Box>
         </Flex>
       </Box>
@@ -42,23 +80,63 @@ const Dashboard = () => {
 };
 const EmployeeItem = ({ data }: { data: Employee }) => {
   return (
-    <>
-      <GridItem rounded="sm" py="1rem" pl="1.25rem" textTransform="capitalize">
+    <Grid templateColumns="repeat(6, 1fr)" borderBottom="1px" borderColor="gray.200">
+      <GridItem
+        display="flex"
+        fontWeight="semibold"
+        alignItems="center"
+        py="1rem"
+        pl="1.25rem"
+        textTransform="capitalize"
+      >
         {data.id}
       </GridItem>
-      <GridItem rounded="sm" py="1rem" pl="1.25rem" textTransform="capitalize">
+      <GridItem display="flex" alignItems="center" py="1rem" pl="1.25rem" textTransform="capitalize">
         {data.fullName}
       </GridItem>
-      <GridItem rounded="sm" py="1rem" pl="1.25rem" textTransform="capitalize">
+      <GridItem py="1rem" pl="1.25rem" display="flex" alignItems="center" textTransform="capitalize">
         {data.email}
       </GridItem>
-      <GridItem rounded="sm" py="1rem" pl="1.25rem" textTransform="capitalize">
+      <GridItem py="1rem" pl="1.25rem" textTransform="capitalize" display="flex" alignItems="center">
         {data.position}
       </GridItem>
-      <GridItem rounded="sm" py="1rem" pl="1.25rem" textTransform="capitalize">
+      <GridItem py="1rem" pl="1.25rem" textTransform="capitalize" display="flex" alignItems="center">
         {data.dateJoined}
       </GridItem>
-    </>
+      <GridItem py="1rem" pl="0.25rem" display="flex" alignItems="center">
+        <EmployeeActions id={data.id} />
+      </GridItem>
+    </Grid>
+  );
+};
+const EmployeeActions = ({ id }: { id: string }) => {
+  const navigate = useNavigate();
+  const [deleteEmployee] = useDeleteEmployeeMutation();
+
+  const handleDelete = async () => {
+    const shouldDelete = window.confirm('Do you really want to delete this employee');
+    if (shouldDelete) {
+      await deleteEmployee(id).unwrap();
+    }
+  };
+  return (
+    <Menu>
+      <MenuButton as={Button}>
+        <img src={Option} alt="option" />
+      </MenuButton>
+      <MenuList>
+        <MenuItem
+          onClick={() => {
+            // navigate('/edit-employee', { id })
+          }}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem onClick={handleDelete} color="red.400">
+          Delete
+        </MenuItem>
+      </MenuList>
+    </Menu>
   );
 };
 
