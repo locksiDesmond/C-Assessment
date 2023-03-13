@@ -11,6 +11,9 @@ export class EmployeeEntity {
   @Column({ nullable: false, unique: true })
   email: string;
 
+  @Column({ nullable: false })
+  fullName: string;
+
   @Column()
   position: string; //TODO: add position enum
 }

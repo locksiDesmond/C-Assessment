@@ -16,7 +16,7 @@ export class EmployeesService {
   }
   async getEmployee(_id: number): Promise<EmployeeEntity> {
     return await this.employeesRepository.findOne({
-      select: ['id', 'dateJoined', 'email', 'position'],
+      select: ['id', 'dateJoined', 'email', 'position', 'fullName'],
       where: [{ id: _id }],
     });
   }
