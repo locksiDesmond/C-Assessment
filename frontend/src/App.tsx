@@ -1,8 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { ChakraProvider } from '@chakra-ui/react';
 
 import Dashboard from './routes/Dashboard';
 import store from './redux/store';
+import AddEmployee from './routes/AddEmployee';
 
 const router = createBrowserRouter([
   {
@@ -13,12 +15,18 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: <Dashboard />,
   },
+  {
+    path: '/add-employee',
+    element: <AddEmployee />,
+  },
 ]);
 
 function App() {
   return (
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ChakraProvider>
+        <RouterProvider router={router} />
+      </ChakraProvider>
     </Provider>
   );
 }

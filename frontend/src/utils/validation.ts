@@ -8,6 +8,7 @@ const position = string()
 
 export const addEmployeeSchema = object().shape({
   email: email.required('Required'),
+  fullName: string().required(),
   position,
   dateJoined: date().required(),
 });
