@@ -2,7 +2,7 @@ import { object, string, date } from 'yup';
 
 const email = string().email('Invalid email');
 const position = string()
-  .oneOf(['CEO', 'Senior Developer', 'Principal Developer'])
+  .oneOf(['CEO', 'Senior Developer', 'Principal Developer', 'HR', 'Technical Writer'])
   .required('Required')
   .typeError('Required');
 

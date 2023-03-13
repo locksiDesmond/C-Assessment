@@ -5,19 +5,20 @@ import { ChakraProvider } from '@chakra-ui/react';
 import Dashboard from './routes/Dashboard';
 import store from './redux/store';
 import AddEmployee from './routes/AddEmployee';
+import EditEmployee from './routes/EditEmployee';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div>Hello world!</div>,
-  },
-  {
-    path: '/dashboard',
     element: <Dashboard />,
   },
   {
     path: '/add-employee',
     element: <AddEmployee />,
+  },
+  {
+    path: '/edit-employee/:employeeId',
+    element: <EditEmployee />,
   },
 ]);
 

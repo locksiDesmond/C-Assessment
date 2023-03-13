@@ -24,7 +24,7 @@ const Dashboard = () => {
   return (
     <Box bg="gray.100">
       <Box w="min(90%,90rem)" mx="auto">
-        <Flex minH="100vh" flexDir="column" pl="2rem" pt="3rem">
+        <Flex overflow="hidden" minH="100vh" flexDir="column" pl={{ base: '1rem', md: '2rem' }} pt="3rem">
           <HStack gap="2">
             <Text fontSize="sm" fontStyle="italic">
               Dashboard
@@ -48,10 +48,17 @@ const Dashboard = () => {
               Add
             </Button>
           </HStack>
-          <Box>
+          <Box bg="gray.50" overflow={{ base: 'scroll', lg: 'hidden' }}>
             <Grid templateColumns="repeat(6, 1fr)" bg="gray.200" textColor="black" rounded="sm">
               {headers.map((item) => (
-                <GridItem py="1rem" pl="1.25rem" textTransform="capitalize" key={item.key}>
+                <GridItem
+                  minWidth="5rem"
+                  fontWeight="semibold"
+                  py="1rem"
+                  pl="1.25rem"
+                  textTransform="capitalize"
+                  key={item.key}
+                >
                   {item.key}
                 </GridItem>
               ))}
@@ -121,13 +128,13 @@ const EmployeeActions = ({ id }: { id: string }) => {
   };
   return (
     <Menu>
-      <MenuButton as={Button}>
+      <MenuButton bg="gray.50" as={Button}>
         <img src={Option} alt="option" />
       </MenuButton>
       <MenuList>
         <MenuItem
           onClick={() => {
-            // navigate('/edit-employee', { id })
+            navigate(`/edit-employee/${id}`);
           }}
         >
           Edit
