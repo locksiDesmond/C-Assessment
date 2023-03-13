@@ -1,12 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { Employee, EmployeeCredentials } from '../utils/types';
 
 const BASE_URL = 'http://localhost:4500';
-interface Employee {
-  email: string;
-  dateJoined: string;
-  position: string;
-  id: string;
-}
 
 export const employeesApi = createApi({
   reducerPath: 'employeesApi',
@@ -23,23 +18,23 @@ export const employeesApi = createApi({
       transformResponse: (response: Employee, meta, arg) => response,
     }),
 
-    updateEmployee: builder.mutation<Employee, Employee>({
+    updateEmployee: builder.mutation<Employee, { id: string; body: EmployeeCredentials }>({
       query: (credentials) => ({
-        url: '',
+        url: credentials.id,
         method: 'PUT',
-        body: credentials,
+        body: credentials.body,
       }),
     }),
-    createEmployee: builder.mutation<Employee, Employee>({
+    createEmployee: builder.mutation<Employee, EmployeeCredentials>({
       query: (credentials) => ({
         url: '',
         method: 'POST',
         body: credentials,
       }),
     }),
-    deleteEmployee: builder.mutation<void, void>({
-      query: () => ({
-        url: '',
+    deleteEmployee: builder.mutation<void, string>({
+      query: (id) => ({
+        url: id,
         method: 'DELETE',
       }),
     }),

@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import Dashboard from './routes/dashboard';
+import Dashboard from './routes/Dashboard';
 import store from './redux/store';
 
 const router = createBrowserRouter([
