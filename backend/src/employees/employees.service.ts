@@ -25,8 +25,8 @@ export class EmployeesService {
     this.employeesRepository.insert(employee);
   }
 
-  async updateEmployee(employee: EmployeeEntity) {
-    this.employeesRepository.save(employee);
+  async updateEmployee(_id: number, employee: EmployeeEntity) {
+    this.employeesRepository.update({ id: _id }, employee);
   }
 
   async deleteEmployee(employee: EmployeeEntity) {

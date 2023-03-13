@@ -30,9 +30,9 @@ export class EmployeesController {
     return this.service.createEmployee(employee);
   }
 
-  @Put()
-  update(@Body() employee: EmployeeEntity) {
-    return this.service.updateEmployee(employee);
+  @Put(':id')
+  update(@Param() params, @Body() employee: EmployeeEntity) {
+    return this.service.updateEmployee(params.id, employee);
   }
 
   @Delete(':id')
