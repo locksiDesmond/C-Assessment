@@ -1,6 +1,6 @@
 # Employee Management Backend
 
-This project uses Nestjs. The date are store MySQL database and connected to Nestjs via TypeOrm.
+This project uses Nestjs. The data are stored in MySQL database and connected to Nestjs via TypeOrm.
 
 ## Running the app
 
