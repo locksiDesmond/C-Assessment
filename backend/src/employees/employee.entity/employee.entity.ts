@@ -15,5 +15,5 @@ export class EmployeeEntity {
   fullName: string;
 
   @Column()
-  position: string; //TODO: add position enum
+  position: string;
 }
